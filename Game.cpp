@@ -26,6 +26,14 @@ void Game::Reset()
 	brick.y_position = 5;
 	brick.doubleThick = true;
 	brick.color = ConsoleColor::DarkGreen;
+
+	//Adds 5 bricks to the vector
+	for (int i = 0; i < 5; i++) {
+		//Moves each brick to the right, evenly spaces them
+		brick.x_position = i * 12; //Since the width is 10 I did i * 12 to get the spacing between each 10 char wide brick
+		//This adds the copy of the brick vector
+		bricks.push_back(brick);
+	}
 }
 
 void Game::ResetBall()
