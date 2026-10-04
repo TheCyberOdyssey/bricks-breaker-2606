@@ -19,6 +19,13 @@ void Game::Reset()
 	ball.color = ConsoleColor::Cyan;
 	ResetBall();
 
+	//Clears old bricks before new ones
+	bricks.clear();
+
+	//New game not lost
+	lost = false;
+	Box brick;
+
 	// TODO #2 - Add this brick and 4 more bricks to the vector
 	brick.width = 10;
 	brick.height = 2;
@@ -81,6 +88,14 @@ void Game::Render() const
 	for (int i = 0; i < bricks.size(); i++) {
 		bricks[i].Draw();
 	}
+
+	//If theres no bricks left
+	if (bricks.size() == 0) {
+		std::cout << "You win! Please, press R to play again!";
+	}
+	else if (lost) {
+		std::cout << "You lost, press 'R' to play again.";
+	}
 	Console::Lock(false);
 }
 
@@ -105,11 +120,20 @@ void Game::CheckCollision()
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
 	//If no bricks remain, the ball will pause and display victory
+	if (bricks.size() == 0) {
+		ball.moving == false;
+		return;
+	}
 
-	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
+	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_position + ball.y_velocity))
 	{
 		ball.y_velocity *= -1;
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
+	if (ball.y_position + ball.y_velocity >= WINDOW_HEIGHT - 1) {
+		ball.moving = false; //Stops the ball
+		lost = true; //Player lost
+		return;
+	}
 }
