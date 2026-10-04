@@ -91,16 +91,20 @@ void Game::CheckCollision()
 		if (bricks[i].Contains(ball.x_position + ball.x_velocity, ball.y_position + ball.y_velocity))
 		{
 			//Changes the brick color each time it hits
-			bricks[i].color = ConsoleColor(brick.color - 1);
+			bricks[i].color = ConsoleColor(bricks[i].color - 1);
 			ball.y_velocity *= -1; //Ball bounces
 
 			// TODO #5 - If the ball hits the same brick 3 times (color == black), remove it from the vector
-			//
+			if (bricks[i].color == ConsoleColor::Black) {
+				bricks.erase(bricks.begin() + i);
+				//After the bricks broken the vector shifts each box to the left
+				i--;
+			}
 		}
 	}
 
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
-
+	//If no bricks remain, the ball will pause and display victory
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
