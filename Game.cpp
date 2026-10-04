@@ -77,8 +77,10 @@ void Game::Render() const
 	ball.Draw();
 
 	// TODO #3 - Update render to render all bricks
-	brick.Draw();
-
+	//This will draw each brick in the vector
+	for (int i = 0; i < bricks.size(); i++) {
+		bricks[i].Draw();
+	}
 	Console::Lock(false);
 }
 
